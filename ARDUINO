@@ -1,0 +1,47 @@
+digitalWrite(pinBuzzer, HIGH);
+
+  // Memulai LCD
+  lcd.init();
+  lcd.backlight(); // Menyalakan lampu latar LCD
+  
+  // Tampilan awal di LCD
+  lcd.setCursor(0, 0); // Kolom 0, Baris 0 (atas)
+  lcd.print("Sistem Getaran");
+  lcd.setCursor(0, 1); // Kolom 0, Baris 1 (bawah)
+  lcd.print("Siap...");
+  delay(1500);
+  lcd.clear();
+
+  Serial.begin(9600);
+  Serial.println("Sistem pendeteksi getaran siap...");
+}
+
+void loop() {
+  statusGetaran = digitalRead(pinSensor);
+
+  if (statusGetaran == HIGH) {
+    digitalWrite(pinLED, HIGH);
+    digitalWrite(pinBuzzer, HIGH);
+    
+    // Menampilkan status di LCD
+    lcd.setCursor(0, 0);
+    lcd.print("STATUS:         "); // Spasi untuk menghapus sisa huruf lama
+    lcd.setCursor(0, 1);
+    lcd.print("GEMPAAA! ");
+    
+    Serial.println("GEMPAAAA!!");
+    delay(300);
+  } else {
+    digitalWrite(pinLED, LOW);
+    digitalWrite(pinBuzzer, LOW);
+    
+    // Menampilkan status aman di LCD
+    lcd.setCursor(0, 0);
+    lcd.print("STATUS:         ");
+    lcd.setCursor(0, 1);
+    lcd.print("Aman / Normal   ");
+    
+    Serial.println("Tidak ada getaran");
+    delay(100);
+  }
+}
